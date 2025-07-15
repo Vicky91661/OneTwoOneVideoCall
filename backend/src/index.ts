@@ -56,19 +56,24 @@ wss.on("connection",(ws)=>{
             receiverSocket = ws;
         }
         else if(message.type ==='sendOffer'){
-            console.log("The ws : ",ws,"and the sender ws :",senderSocket);
+           
             // if(ws !== senderSocket) return;
             console.log("The Sdp i got from the sender",message.sdp)
             receiverSocket?.send(JSON.stringify({type:'offer',sdp:message.sdp}))
         }else if(message.type ==='sendAnswer'){
-            console.log("The ws : ",ws,"and the receiver ws :",receiverSocket);
+           
             // if(ws!==receiverSocket) return;
             console.log("The Sdp i got from the receiver",message.sdp)
             senderSocket?.send(JSON.stringify({type:'answer',sdp:message.sdp}))
+        }else if(message.type ==='AddIceCandidate'){
+            if(ws === senderSocket){
+                receiverSocket?.send(JSON.stringify({type:'AddIceCandidate',candidate:message.candidate})) // Fixed typo
+            }else if(ws === receiverSocket){
+                senderSocket?.send(JSON.stringify({type:'AddIceCandidate',candidate:message.candidate})) // Fixed typo
+            }
         }
 
 
     });
-    ws.send('something');
     
 })

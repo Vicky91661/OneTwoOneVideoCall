@@ -6,7 +6,7 @@ export default function App(){
   return <BrowserRouter>
     <Routes>
       <Route path="/sender" element={<Sender/>}></Route>
-      <Route path="/sender" element={<Receiver/>}></Route>
+      <Route path="/receiver" element={<Receiver/>}></Route>
     </Routes>
   </BrowserRouter>
 }
